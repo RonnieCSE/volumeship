@@ -1,5 +1,6 @@
+
 import {
-    Card,
+  Card,
   TextField,
   BlockStack,
   FormLayout,
@@ -18,23 +19,19 @@ import PageLayout from "../shared/pageLayout";
 import ProductSelectionCard from "../shared/ProductSelectionCard";
 import ColorPickerInput from "../shared/ColorPickerInput";
 import { DeleteIcon, PlusIcon } from "@shopify/polaris-icons";
-
 import {
   DiscountClass,
   DiscountMethod,
   SummaryCard,
   CombinationCard,
 } from "@shopify/discount-app-components";
-
-import { PageTitleBar } from "../shared/pageTitleBar";
 import enPolarisTranslations from "@shopify/polaris/locales/en.json";
 import "@shopify/polaris/build/esm/styles.css";
 import "@shopify/discount-app-components/build/esm/styles.css";
-import PreviewMarkup from "../discounts/previewMarkup";
+import PreviewMarkup from "./previewMarkup";
 import { Form, useSubmit, useLoaderData } from "@remix-run/react";
 
-
-export const NewDiscount = ({ isEditing = false }) => {
+export const DiscountForm = ({ isEditing = false }) => {
   const submit = useSubmit();
   const loaderData = useLoaderData();
 
@@ -171,22 +168,21 @@ export const NewDiscount = ({ isEditing = false }) => {
     await submit(data, { method: "POST", encType: "application/json" });
   };
 
-
   return (
     <PolarisAppProvider i18n={enPolarisTranslations}>
-         <DiscountsProvider locale="en-US" ianaTimezone="America/Los_Angeles">
-           <PageLayout
-             showBackButton
-             title={isEditing ? "Edit discount" : "New discount"}
-             titleMetadata={
-               status === "draft" ? (
-                 <Badge tone="info"> Draft </Badge>
-               ) : (
-                 <Badge tone="success"> Active </Badge>
-               )
-             }
-           >
-<Form
+      <DiscountsProvider locale="en-US" ianaTimezone="America/Los_Angeles">
+        <PageLayout
+          showBackButton
+          title={isEditing ? "Edit discount" : "New discount"}
+          titleMetadata={
+            status === "draft" ? (
+              <Badge tone="info"> Draft </Badge>
+            ) : (
+              <Badge tone="success"> Active </Badge>
+            )
+          }
+        >
+          <Form
             method="POST"
             data-save-bar
             data-discard-confirmation
@@ -491,9 +487,10 @@ export const NewDiscount = ({ isEditing = false }) => {
               </Layout.Section>
             </Layout>
           </Form>
-      
-            </PageLayout>
-            </DiscountsProvider>
-            </PolarisAppProvider>
+        </PageLayout>
+      </DiscountsProvider>
+    </PolarisAppProvider>
   );
 };
+
+export default DiscountForm;
