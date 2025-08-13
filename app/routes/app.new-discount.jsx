@@ -14,5 +14,5 @@ export const action = async ({ request }) => {
 
 export default function NewDiscountPage() {
   return <NewDiscount />;
-  // return <DiscountForm />;
+  return <DiscountForm />;
 }

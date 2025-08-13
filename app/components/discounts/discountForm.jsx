@@ -467,6 +467,7 @@ export const DiscountForm = ({ isEditing = false }) => {
                       onChange={setStatus}
                     />
                   </Card>
+                  
                   <SummaryCard
                     header={{
                       discountMethod: DiscountMethod.Automatic,
