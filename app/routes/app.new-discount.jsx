@@ -1,5 +1,6 @@
 import { json } from "@remix-run/react";
 import { NewDiscount } from "../components/newDiscount";
+import {DiscountForm} from "../components/discounts/discountForm"
 import { authenticate } from "../config/shopify";
 
 export const loader = async ({ request }) => {
@@ -13,4 +14,5 @@ export const action = async ({ request }) => {
 
 export default function NewDiscountPage() {
   return <NewDiscount />;
+  // return <DiscountForm />;
 }
