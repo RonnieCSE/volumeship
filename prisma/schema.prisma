@@ -30,6 +30,8 @@ model Session {
   locale        String?
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
+
+  @@map("session")
 }
 
 model Event {
@@ -38,6 +40,8 @@ model Event {
   name      String
   data      Json?    @default("{}")
   createdAt DateTime @default(now())
+
+  @@map("event")
 }
 
 model Webhook {
@@ -46,4 +50,6 @@ model Webhook {
   topic     String
   payload   Json?    @default("{}")
   createdAt DateTime @default(now())
+
+  @@map("webhook")
 }
