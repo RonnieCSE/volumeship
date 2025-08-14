@@ -9,7 +9,12 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-  // todo handle the action only if needed!
+  const {admin} = await authenticate.admin(request)
+
+  const formData =  Object.fromEntries(await request.formData());
+  console.log(">>>> Action Request data", formData)
+  console.log("Action end <<<<<<<<<>>>>>>>>>")
+  return json({});
 };
 
 export default function NewDiscountPage() {

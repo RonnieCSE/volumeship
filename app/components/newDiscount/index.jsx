@@ -38,7 +38,16 @@ import { Form, useSubmit, useLoaderData } from "@remix-run/react";
 export const NewDiscount = ({ isEditing = false }) => {
   const submit = useSubmit();
   const loaderData = useLoaderData();
-  
+
+  const [title, setTitle] = useState("");
+  const [products, setProducts] = useState([]);
+  const [combinesWith, setCombinesWith] = useState({
+    orderDiscounts: false,
+    productDiscounts: false,
+    shippingDiscounts: false,
+  });
+  const [status, setStatus] = useState("draft");
+ 
   const [discountValues, setDiscountValues] = useState([
     {
       title: "Buy one",
@@ -87,25 +96,15 @@ export const NewDiscount = ({ isEditing = false }) => {
     },
   ]);
 
-  const [title, setTitle] = useState("");
-  const [products, setProducts] = useState([]);
-  const [combinesWith, setCombinesWith] = useState({
-    orderDiscounts: false,
-    productDiscounts: false,
-    shippingDiscounts: false,
-  });
-  const [status, setStatus] = useState("draft");
- 
-
-  // useEffect(() => {
-  //   if (isEditing && loaderData) {
-  //     setTitle(loaderData.title || "");
-  //     setProducts(loaderData.products || []);
-  //     setCombinesWith(loaderData.combinesWith || []);
-  //     setDiscountValues(loaderData.discountValues || []);
-  //     setStatus(loaderData.isActive ? "active" : "draft");
-  //   }
-  // }, [isEditing, loaderData]);
+  useEffect(() => {
+    if (isEditing && loaderData) {
+      setTitle(loaderData.title || "");
+      setProducts(loaderData.products || []);
+      setCombinesWith(loaderData.combinesWith || []);
+      setDiscountValues(loaderData.discountValues || []);
+      setStatus(loaderData.isActive ? "active" : "draft");
+    }
+  }, [isEditing, loaderData]);
 
   const handleAddQuantityDiscount = useCallback( () =>{
      setDiscountValues([
@@ -135,7 +134,7 @@ export const NewDiscount = ({ isEditing = false }) => {
     [discountValues]
   );
 
-    const handleSetQuantityDiscount = useCallback(
+  const handleSetQuantityDiscount = useCallback(
     (index, value, key) => {
       const newDiscountValues = [...discountValues];
       newDiscountValues[index][key] = value;
@@ -144,6 +143,39 @@ export const NewDiscount = ({ isEditing = false }) => {
     [discountValues]
   );
 
+  const handleSelectTier = useCallback(
+    (index) => {
+      const newDiscountValues = [...discountValues];
+      newDiscountValues[index].selected = !newDiscountValues[index].selected;
+      setDiscountValues(newDiscountValues);
+    },
+    [discountValues]
+  );
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = {
+      title,
+      products,
+      discountValues,
+      isActive : true,
+      combinesWith
+    }
+
+   /*
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("products", JSON.stringify(products));
+  formData.append("discountValues", JSON.stringify(discountValues));
+  formData.append("isActive", "true"); 
+  formData.append("combinesWith", JSON.stringify(combinesWith));
+  */
+
+    await submit(formData, {
+      method: "post",
+      encType: "multipart/form-data", // ✅ allowed type
+    });
+  }
 
 
   return (
@@ -152,7 +184,7 @@ export const NewDiscount = ({ isEditing = false }) => {
          <DiscountsProvider locale="en-US" ianaTimezone="America/Los_Angeles">
            <PageLayout
              showBackButton
-             title={isEditing ? "Edit discount" : "New discount"}
+             title={isEditing ? "Edit discount" : "Create New discount"}
              titleMetadata={
                status === "draft" ? (
                  <Badge tone="info"> Draft </Badge>
@@ -165,6 +197,7 @@ export const NewDiscount = ({ isEditing = false }) => {
             method="POST"
             data-save-bar
             data-discard-confirmation
+            onSubmit={handleSubmit}
             onReset={() => {}}
           >
             <Layout>
@@ -280,7 +313,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                          />
                                                        </FormLayout.Group>
                                                        
-                                                  {/*
+                                                 
                                                        <TextField
                                                          label="Discount message"
                                                          helpText="Discount message displayed to customers in cart and checkout"
@@ -307,6 +340,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                            )
                                                          }
                                                        />
+
                        
                                                        <FormLayout.Group condensed>
                                                          <TextField
@@ -336,7 +370,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                            }
                                                          />
                                                        </FormLayout.Group>
-                       
+                 
                                                        <Checkbox
                                                          label="Pre-selected"
                                                          checked={item.selected}
@@ -346,6 +380,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                        <Text variant="bodyMd" fontWeight="bold">
                                                          Styles
                                                        </Text>
+
                        
                                                        <FormLayout.Group condensed>
                                                          <ColorPickerInput
@@ -372,6 +407,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                          />
                                                        </FormLayout.Group>
                        
+                                                       
                                                        <FormLayout.Group condensed>
                                                          <ColorPickerInput
                                                            label="Badge background"
@@ -395,7 +431,7 @@ export const NewDiscount = ({ isEditing = false }) => {
                                                              )
                                                            }
                                                          />
-                                                       </FormLayout.Group> */}
+                                                       </FormLayout.Group>
 
                                                      </BlockStack>
 
