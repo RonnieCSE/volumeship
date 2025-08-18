@@ -11,7 +11,8 @@ export const loader = async ({ request }) => {
 export const action = async ({ request }) => {
   const {admin} = await authenticate.admin(request)
 
-  const formData =  Object.fromEntries(await request.formData());
+  // const formData =  Object.fromEntries(await request.formData());
+  const formData =  await request.json();
   console.log(">>>> Action Request data", formData)
   console.log("Action end <<<<<<<<<>>>>>>>>>")
   return json({});

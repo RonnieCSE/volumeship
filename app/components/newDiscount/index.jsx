@@ -1,16 +1,4 @@
-import {
-    Card,
-  TextField,
-  BlockStack,
-  FormLayout,
-  Button,
-
-  Text,
-  Layout,
-  InlineStack,
-  Select,
-  Checkbox,
-  Badge,
+import {  Card, TextField, BlockStack, FormLayout, Button, Text, Layout, InlineStack,Select,Checkbox,Badge,
   AppProvider as PolarisAppProvider,
 } from "@shopify/polaris";
 import { useCallback, useState, useEffect } from "react";
@@ -173,7 +161,7 @@ export const NewDiscount = ({ isEditing = false }) => {
 
     await submit(formData, {
       method: "post",
-      encType: "multipart/form-data", // ✅ allowed type
+      encType: "application/json", 
     });
   }
 
