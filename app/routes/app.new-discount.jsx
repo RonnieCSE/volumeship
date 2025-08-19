@@ -1,24 +1,78 @@
 import { json } from "@remix-run/react";
 import { NewDiscount } from "../components/newDiscount";
-import {DiscountForm} from "../components/discounts/discountForm"
-import { authenticate } from "../config/shopify";
-
+import { authenticateExtra } from "../config/shopify";
+import {VolumeShipModel} from "../models/volumeship.model.js"
+import {FeatureModel} from "../models/feature.model.js";
 export const loader = async ({ request }) => {
-  const { admin } = await authenticate.admin(request);
+  const { admin } = await authenticateExtra(request);
+
   return json({});
 };
 
 export const action = async ({ request }) => {
-  const {admin} = await authenticate.admin(request)
+  const {admin, metaobject} = await authenticateExtra(request)
 
-  // const formData =  Object.fromEntries(await request.formData());
   const formData =  await request.json();
-  console.log(">>>> Action Request data", formData)
-  console.log("Action end <<<<<<<<<>>>>>>>>>")
+
+
+
+  if(formData.saveDiscount){
+    await saveDiscount(formData, metaobject)
+  }
   return json({});
 };
 
 export default function NewDiscountPage() {
   return <NewDiscount />;
-  return <DiscountForm />;
+  // return <DiscountForm />;
+}
+
+
+// helper Function
+async function saveDiscount(formData, metaobject){
+
+  const newData = {
+    title: formData.title,
+    products_reference: JSON.stringify(formData.products.flatMap(g => (g.variants.map(v => v.id)))),
+    products: JSON.stringify(formData.products),
+    discountValues: JSON.stringify(formData.discountValues),
+    isActive: formData.isActive ? 'true' : 'false',
+    combinesWith: JSON.stringify(formData.combinesWith),
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    // Check if the MetaObject definition already exists
+    let definition;
+    try {
+      definition = await metaobject.getDefinition({
+        type: VolumeShipModel.type,
+      });
+    } catch (error) {
+      // If the definition doesn't exist, create it
+      if (error.message.includes("No definition found")) {
+        await metaobject.define(VolumeShipModel);
+      } else {
+        throw error; // Re-throw if it's a different error
+      }
+    }
+
+    // Now proceed with create or update
+    if (formData.id) {
+      await metaobject.update(VolumeShipModel, newData.id, formData);
+    } else {
+      await metaobject.create(VolumeShipModel, newData);
+    }
+  } catch (e) {
+    console.error("Error saving features:", e);
+    return json(
+      {
+        status: {
+          success: false,
+          message: `Error saving features: ${e.message}`,
+        },
+      },
+      { status: 400 },
+    );
+  }
 }

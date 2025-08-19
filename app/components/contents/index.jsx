@@ -14,16 +14,15 @@ export default function Contents() {
         { title: 'Actions' },
       ];
 
-      console.log('contentsObject -----> ', contentsObject);
 
     return (
-        <PageLayout 
-            showBackButton 
-            title="Contents" 
+        <PageLayout
+            showBackButton
+            title="Contents"
             subtitle="Manage your content: Example of how you can use Shipready metaobjects"
             primaryAction={<Button variant="primary" url='/app/contents/new'>New content</Button>}>
             <PageTitleBar title="Discounts" />
-  
+
             {contentsObject?.nodes?.length < 1 ? (
             <Card>
                 <EmptyState

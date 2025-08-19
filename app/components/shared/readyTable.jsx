@@ -130,7 +130,7 @@ const ReadyTable = ({
         <IndexTable.Cell key={cellIndex}>
           {cellIndex === tableHeadings.length - 1 && actions ? (
             <InlineStack gap={200}>
-              <Button variant="plain" 
+              <Button variant="plain"
                 url={`/app/${resourceName.handle}/edit/${item.id.split('/').pop() }`}
                 icon={EditIcon}>
                 Edit
@@ -179,7 +179,7 @@ const ReadyTable = ({
         {rowMarkup}
       </IndexTable>
 
-      <Modal id="deleteModal" open={openDeleteModal}>
+      <Modal id="deleteModal" open={openDeleteModal}   onHide={() => setOpenDeleteModal(false)}>
         <div
           style={{
             padding: "14px",
