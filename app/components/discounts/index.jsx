@@ -6,9 +6,6 @@ import ReadyTable from '../shared/readyTable.jsx';
 export default function Discounts() {
   const {volumeDiscounts} = useLoaderData();
 
-  console.log(volumeDiscounts.nodes)
-
-
   const headings = [
     {title: 'title'},
     {title: 'Status'},
@@ -19,13 +16,13 @@ export default function Discounts() {
 
   return (
     <PageLayout showBackButton title="Discounts page"
-                primaryAction={<Button variant="primary" url='/app/new-discount'>New Discount</Button>}>
+                primaryAction={<Button variant="primary" url='/app/discounts/new'>New Discount</Button>}>
 
       {volumeDiscounts.nodes.length < 1 ? (
         <Card>
           <EmptyState
             heading="Manage your discounts"
-            action={{content: 'Add Discount', url: '/app/new-discount'}}
+            action={{content: 'Add Discount', url: '/app/discounts/new'}}
             secondaryAction={{
               content: 'Learn more',
               url: 'https://help.shopify.com',
@@ -40,7 +37,7 @@ export default function Discounts() {
         <ReadyTable
           data={volumeDiscounts}
           headings={headings}
-          resourceName={{singular: 'Volume Discount', plural: 'Volume Discounts'}}
+          resourceName={{singular: 'Volume Discount', plural: 'Volume Discounts',handle:'discounts'}}
           selectable={false}
           pagination={true}
           actions={true}
