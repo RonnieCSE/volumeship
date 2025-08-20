@@ -1,5 +1,6 @@
 import { json } from "@remix-run/react";
-import { NewDiscount } from "../components/newDiscount";
+import { DiscountForm } from "../components/discounts/discountForm.jsx";
+
 import { authenticateExtra } from "../config/shopify";
 import {VolumeShipModel} from "../models/volumeship.model.js"
 import {FeatureModel} from "../models/feature.model.js";
@@ -9,7 +10,7 @@ export const loader = async ({ request }) => {
   return json({});
 };
 
-export const action = async ({ request }) => {
+export const action = async ({request }) => {
   const {admin, metaobject} = await authenticateExtra(request)
 
   const formData =  await request.json();
@@ -23,8 +24,7 @@ export const action = async ({ request }) => {
 };
 
 export default function NewDiscountPage() {
-  return <NewDiscount />;
-  // return <DiscountForm />;
+  return <DiscountForm />;
 }
 
 

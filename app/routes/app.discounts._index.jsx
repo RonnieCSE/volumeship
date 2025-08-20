@@ -33,3 +33,4 @@ export async function action({request}) {
 export default function SettingsPage() {
   return <Discounts/>;
 }
+
