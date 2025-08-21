@@ -12,10 +12,7 @@ export const loader = async ({ request }) => {
 
 export const action = async ({request }) => {
   const {admin, metaobject} = await authenticateExtra(request)
-
   const formData =  await request.json();
-
-
 
   if(formData.saveDiscount){
     await saveDiscount(formData, metaobject)
