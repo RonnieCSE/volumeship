@@ -15,9 +15,9 @@ import {
 } from "@shopify/polaris";
 import { ColorIcon } from "@shopify/polaris-icons";
 
-const ReadyColorPicker = ({ 
-  color, 
-  setColor, 
+const ReadyColorPicker = ({
+  color,
+  setColor,
   label = "Select color",
   helpText
 }) => {
@@ -32,7 +32,7 @@ const ReadyColorPicker = ({
   }, []);
 
   const handleColorChange = useCallback((newColor) => {
-    console.log('newColor', newColor);
+    // console.log('newColor', newColor);
     setInternalColor(newColor);
     const hexColor = rgbToHex(hsbToRgb(newColor));
     setColor(hexColor);

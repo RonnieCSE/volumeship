@@ -73,7 +73,7 @@ const ReadyTable = ({
       );
     }
     if (key == "created_at" || key == "date" || key == "createdAt") {
-      console.log("value", value);
+      // console.log("value", value);
       return value
         ? new Date(value).toLocaleDateString("en-GB", {
             day: "numeric",

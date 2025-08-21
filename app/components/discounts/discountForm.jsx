@@ -42,7 +42,8 @@ export const DiscountForm = ({isEditing = false}) => {
   });
   const [status, setStatus] = useState("draft");
 
-  const [discountValues, setDiscountValues] = useState([{
+  const [discountValues, setDiscountValues] = useState([
+    {
     title: "Buy one",
     quantity: 1,
     discount: 0,
@@ -56,7 +57,8 @@ export const DiscountForm = ({isEditing = false}) => {
     label_color: "#000000",
     badge_bg: "#e67e22",
     badge_color: "#fff",
-  }, {
+  },
+    {
     title: "Buy two get discount",
     quantity: 2,
     discount: 10,
@@ -70,7 +72,8 @@ export const DiscountForm = ({isEditing = false}) => {
     label_color: "#000000",
     badge_bg: "#0096c7",
     badge_color: "#ffffff",
-  }, {
+  },
+    {
     title: "Buy three get discount",
     quantity: 3,
     discount: 20,
@@ -111,8 +114,8 @@ export const DiscountForm = ({isEditing = false}) => {
       label_color: "#000000",
       badge_bg: "#f55276",
       badge_color: "#ffffff",
-    },])
-  })
+    }])
+  },[discountValues])
 
   const handleRemoveQuantityDiscount = useCallback((index) => {
     setDiscountValues(discountValues.filter((_, i) => i !== index));
@@ -140,6 +143,11 @@ export const DiscountForm = ({isEditing = false}) => {
       combinesWith,
       createdAt: isEditing ? loaderData.createdAt : new Date().toISOString(),
       [isEditing ? 'updateDiscount' : 'saveDiscount']: true
+    }
+
+    if (isEditing) {
+      formData.id = loaderData.id; // Include the discount ID when updating
+      // formData.discountId = loaderData.id;
     }
 
     await submit(formData, {

@@ -43,7 +43,7 @@ export const ContentForm = ({ isEditing = false }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('editing content ----> ', isEditing);
+    // console.log('editing content ----> ', isEditing);
     const data = {
       title,
       description,
